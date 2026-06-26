@@ -3,10 +3,15 @@ pipeline {
     options {
         skipStagesAfterUnstable()
     }
+
+    tools {
+        jdk 'JDK21'
+    }
     stages {
-        stage('MVN Check') {
+        stage('Verify Java') {
             steps {
-                sh 'mvn -v'
+                sh 'java -version'
+                sh 'echo $JAVA_HOME'
             }
         }
         stage('Build') {

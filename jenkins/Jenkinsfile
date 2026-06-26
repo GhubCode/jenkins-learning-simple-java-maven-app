@@ -11,28 +11,54 @@ pipeline {
     }
     
     stages {
-        // stage('Verify Java') {
-        //     steps {
-        //         sh 'java -version'
-        //         sh 'echo $JAVA_HOME'
-        //     }
-        // }
-        // stage('Debug Maven Java') {
-        //     steps {
-        //         sh 'mvn -v'
-        //         sh 'which java'
-        //         sh 'which javac'
-        //         sh 'echo $JAVA_HOME'
-        //     }
-        // }
+        stage('Verify Java') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'java -version'
+                        sh 'echo $JAVA_HOME'
+                    } else {
+                        bat 'java -version'
+                        bat 'echo $JAVA_HOME'
+                    }
+                }
+            }
+        }
+        stage('Debug Maven Java') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'mvn -v'
+                        sh 'which java'
+                        sh 'which javac'
+                        sh 'echo $JAVA_HOME'
+                    } else {
+                        bat 'mvn -v'
+                        bat 'which java'
+                        bat 'which javac'
+                        bat 'echo $JAVA_HOME'
+                    }
+                }
+            }
+        }
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                script {
+                    if (isUnix()) {
+                        sh 'mvn -B -DskipTests clean package'
+                    } else {
+                        bat 'mvn -B -DskipTests clean package'
+                    }
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
+                script {
+                    if (isUnix()) {
+                        sh 'mvn test'
+                    } else {
+                        bat 'mvn test'
+                    }
             }
             post {
                 always {
@@ -40,10 +66,10 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') { 
-            steps {
-                sh './jenkins/scripts/deliver.sh' 
-            }
-        }
+        // stage('Deliver') { 
+        //     steps {
+        //         sh './jenkins/scripts/deliver.sh' 
+        //     }
+        // }
     }
 }

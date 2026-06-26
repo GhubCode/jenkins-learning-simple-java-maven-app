@@ -49,6 +49,7 @@ pipeline {
                     } else {
                         bat 'mvn -B -DskipTests clean package'
                     }
+                }
             }
         }
         stage('Test') {
@@ -59,10 +60,11 @@ pipeline {
                     } else {
                         bat 'mvn test'
                     }
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+                }
+                post {
+                    always {
+                        junit 'target/surefire-reports/*.xml'
+                    }
                 }
             }
         }

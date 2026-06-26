@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent JenAgentNode1
 
     environment {
         JAVA_HOME = "/usr/lib/jvm/java-21-openjdk-amd64"

@@ -14,6 +14,14 @@ pipeline {
                 sh 'echo $JAVA_HOME'
             }
         }
+        stage('Debug Maven Java') {
+            steps {
+                sh 'mvn -v'
+                sh 'which java'
+                sh 'which javac'
+                sh 'echo $JAVA_HOME'
+            }
+        }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
